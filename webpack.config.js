@@ -24,6 +24,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
+      {
         test: /\.css$/i,
         // style-loader comes first and followed by css-loader
         use: ['style-loader', 'css-loader'],
