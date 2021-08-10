@@ -31,6 +31,12 @@ npm install react react-dom
 ## Setup style to project
 ```
 npm install style-loader css-loader sass-loader node-sass --save-dev
+npm i bootstrap
+```
+
+## Setup Router
+```
+npm install react-router-dom
 ```
 
 

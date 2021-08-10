@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import './style.css';
-import "style.scss";
-
-const App = () => (<h1>Hello World!</h1>);
+import App from './components/App';
+import { BrowserRouter as Router } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './style.scss'
 
 ReactDOM.render(
-  <App />,
+  <Router>
+    <App />
+  </Router>,
   document.getElementById('root')
 );
