@@ -11,8 +11,8 @@ function App() {
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
-        <Route path={'/about'} component={AboutPage} />
-        <Route path={'/courses'} component={AboutPage} />
+        <Route exact path='/about' component={AboutPage} />
+        <Route exact path='/courses' component={AboutPage} />
         <Route render={() => <h1>Oops! Page not found.</h1>} />
       </Switch>
     </div>

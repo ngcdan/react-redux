@@ -10,16 +10,23 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    modules: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'public'), 'node_modules']
   },
   devServer: {
-    contentBase: path.join(__dirname, 'src')
+    stats: "minimal",
+    compress: true, //Enable gzip
+    overlay: true,
+    historyApiFallback: true,
+    disableHostCheck: true,
+    headers: { "Access-Control-Allow-Origin": "*" },
+    https: false,
+    contentBase: path.join(__dirname, 'public')
   },
   plugins: [
     new HtmlWebpackPlugin(
       {
-        template: path.join(__dirname, 'src', 'index.html'),
-        // favicon: path.join(__dirname, 'src', 'sun.ico')
+        template: path.join(__dirname, 'public', 'index.html'),
+        favicon: path.join(__dirname, 'public', 'sun.ico')
       }
     )
   ],
