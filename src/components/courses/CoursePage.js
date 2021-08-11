@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createCourse } from '../../redux/actions/courseActions';
-import PropsTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class CoursePage extends React.Component {
   state = {
@@ -33,9 +33,9 @@ class CoursePage extends React.Component {
   }
 }
 
-CoursePage.propsTypes = {
-  courses: PropsTypes.array.isRequired,
-  dispatch: PropsTypes.func.isRequired
+CoursePage.propTypes = {
+  courses: PropTypes.array.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, _ownProps) {
