@@ -39,6 +39,11 @@ npm i bootstrap
 npm install react-router-dom
 ```
 
+## Setup Redux
+```
+npm install redux react-redux
+```
+
 
 
 
