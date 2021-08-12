@@ -54,6 +54,7 @@ __npm-run-all__ : run multiple npm scripts
 ```
 npm install npm-run-all json-server --save-dev
 ```
+Access rest api via http://localhost:3001/courses
 
 ## Using redux-thunk handle async api
 
