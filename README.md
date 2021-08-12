@@ -60,6 +60,10 @@ Access rest api via http://localhost:3001/courses
 
 ### handle non using redux-thunk
 ```
+npm install redux-thunk
+```
+
+```
 export function deleteAuthor(dispatch, authorId) {
   return AuthorApi.deleteAuthor(authorId)
   .then(() => {
@@ -69,6 +73,12 @@ export function deleteAuthor(dispatch, authorId) {
 }
 ```
 __Components can call sync an async actions the same way__
+
+
+##### add babel-polyfill  to get async/await working.
+```
+npm install --save-dev @babel/polyfill
+```
 
 
 
