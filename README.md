@@ -49,6 +49,26 @@ npm install redux react-redux
  npm i prop-types
 ```
 
+## Setup Mock Data
+__npm-run-all__ : run multiple npm scripts
+```
+npm install npm-run-all json-server --save-dev
+```
+
+## Using redux-thunk handle async api
+
+### handle non using redux-thunk
+```
+export function deleteAuthor(dispatch, authorId) {
+  return AuthorApi.deleteAuthor(authorId)
+  .then(() => {
+    dispatch(deleteAuthor(authorId));
+  })
+  .catch(handleError);
+}
+```
+__Components can call sync an async actions the same way__
+
 
 
 
