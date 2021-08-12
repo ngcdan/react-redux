@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -23,6 +24,9 @@ module.exports = {
     contentBase: path.join(__dirname, 'public')
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.API_URL": JSON.stringify("http://localhost:3001")
+    }),
     new HtmlWebpackPlugin(
       {
         template: path.join(__dirname, 'public', 'index.html'),

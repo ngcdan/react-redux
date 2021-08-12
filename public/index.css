@@ -1,4 +1,8 @@
 #root {
-  background-color: #222;
-  color: #8ee4af;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+nav {
+  padding: 20px 0 20px 0;
 }
