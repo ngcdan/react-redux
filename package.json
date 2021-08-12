@@ -10,8 +10,8 @@
     "watch": "webpack --watch",
     "start": "run-p start:dev start:api",
     "start:dev": "webpack serve --config webpack.config.dev.js --port 3000",
-    "prestart:api": "node api/createMockDb.js",
-    "start:api": "node api/apiServer.js"
+    "prestart:api": "node tools/createMockDb.js",
+    "start:api": "node tools/apiServer.js"
   },
   "repository": {
     "type": "git",
