@@ -1,24 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { loadCourses } from '../../redux/actions/courseActions';
+import { loadCourses, saveCourse } from '../../redux/actions/courseActions';
 import { loadAuthors } from '../../redux/actions/authorActions';
 import CourseForm from './CourseForm';
 import { newCourse } from '../../../tools/mockData';
 
 class ManageCoursePage extends React.Component {
   state = {
-    course: { ...this.props.course },
-    errors: {}
+    course: {},
+    errors: {},
   }
 
   componentDidMount() {
-    let { loadCourses, loadAuthors, courses, authors } = this.props;
+    let { loadCourses, loadAuthors, courses, authors, course } = this.props;
     if (courses.length === 0) {
       loadCourses().catch(error => {
         alert("load courses failed " + error);
       });
-    }
+    } else {
+      this.setState({ ...this.state, course });
+    };
 
     if (authors.length === 0) {
       loadAuthors().catch(error => {
@@ -40,7 +42,8 @@ class ManageCoursePage extends React.Component {
 
   handleSave = (event) => {
     event.preventDefault();
-    saveCourse(course).then(() => {
+    const { saveCourse, history } = this.props;
+    saveCourse(this.state.course).then(() => {
       history.push("/courses");
     }).catch(error => {
       throw error;
@@ -53,7 +56,8 @@ class ManageCoursePage extends React.Component {
         course={this.state.course}
         authors={this.props.authors}
         errors={this.state.errors}
-        onChange={this.handleChange} onSave={this.handleSave} />
+        onChange={this.handleChange}
+        onSave={this.handleSave} />
     );
   }
 }
@@ -63,28 +67,29 @@ ManageCoursePage.propTypes = {
   courses: PropTypes.array.isRequired,
   authors: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
-  loadAuthors: PropTypes.func.isRequired
+  loadAuthors: PropTypes.func.isRequired,
+  saveCourse: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state) {
+// Redux mappings
+function mapStateToProps(state, ownProps) {
+  console.log('call map state to props');
+  const slug = ownProps.match.params.slug;
+  const course = slug && state.courses?.length > 0
+    ? state.courses.find(course => course.slug === slug) || newCourse
+    : newCourse;
+
   return {
-    course: state.courses?.length > 0 ? state.courses[0] : newCourse,
-    courses:
-      state.authors?.length === 0
-        ? []
-        : state.courses.map(course => {
-          return {
-            ...course,
-            authorName: state.authors.find(author => author.id === course.authorId).name
-          };
-        }),
+    course,
+    courses: state.authors,
     authors: state.authors
   };
 }
 
 const mapDispatchToProps = {
   loadCourses,
-  loadAuthors
+  loadAuthors,
+  saveCourse,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);

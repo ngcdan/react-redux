@@ -8,8 +8,10 @@ export default class CourseForm extends Component {
     return (
       <form onSubmit={onSave}>
         <h2>{course.id ? "Edit" : "Add"} Course</h2>
+
         <TextInput htmlId="example-optional"
           name="title" label="Title" value={course.title} onChange={onChange} />
+
         <SelectInput
           name="authorId"
           label="Author"
@@ -20,6 +22,7 @@ export default class CourseForm extends Component {
             text: author.name
           }))}
           onChange={onChange} />
+
         <TextInput
           name="category"
           label="Category"

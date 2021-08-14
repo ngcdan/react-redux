@@ -21,6 +21,10 @@ export default class CourseList extends Component {
             return (
               <tr key={course.slug}>
                 <th>
+                  <a className="btn btn-light"
+                    href={"http://pluralsight.com/courses/" + course.slug} >
+                    Watch
+                  </a>
                 </th>
                 <th>
                   <Link to={"/course/" + course.slug}>
