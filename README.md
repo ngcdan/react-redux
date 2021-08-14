@@ -23,6 +23,11 @@ touch .babelrc
 ...
 
 ```
+##### add babel-polyfill to get async/await working.
+```
+npm install --save-dev @babel/polyfill
+```
+
 ## Setup react
 ```
 npm install react react-dom
@@ -73,13 +78,5 @@ export function deleteAuthor(dispatch, authorId) {
 }
 ```
 __Components can call sync an async actions the same way__
-
-
-##### add babel-polyfill  to get async/await working.
-```
-npm install --save-dev @babel/polyfill
-```
-
-
 
 

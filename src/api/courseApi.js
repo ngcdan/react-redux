@@ -2,7 +2,6 @@ import { handleError, handleResponse } from './apiUtils';
 const baseUrl = process.env.API_URL + "/courses/";
 
 export function getCourses() {
-  console.log(baseUrl);
   return fetch(baseUrl)
     .then(handleResponse)
     .catch(handleError);
