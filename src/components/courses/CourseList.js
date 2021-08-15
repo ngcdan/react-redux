@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default class CourseList extends Component {
 
   render() {
-    const { courses } = this.props;
+    const { courses, onDelete } = this.props;
     return (
       <table className='table table-hover'>
         <thead>
@@ -14,6 +14,7 @@ export default class CourseList extends Component {
             <th> Title </th>
             <th> Author </th>
             <th> Category </th>
+            <td />
           </tr>
         </thead>
         <tbody>
@@ -33,6 +34,11 @@ export default class CourseList extends Component {
                 </th>
                 <th> {course.authorName} </th>
                 <th> {course.category} </th>
+                <th>
+                  <button className="btn btn-outline-danger" onClick={() => onDelete(course)}>
+                    Delete
+                  </button>
+                </th>
               </tr>
             );
           })}
@@ -44,4 +50,5 @@ export default class CourseList extends Component {
 
 CourseList.propTypes = {
   courses: PropTypes.array.isRequired,
+  onDelete: PropTypes.func.isRequired
 }
