@@ -25,6 +25,10 @@ class CoursePage extends React.Component {
     return (
       <>
         <h1>Course Page</h1>
+        <button style={{ marginBottom: 20 }} className='btn btn-primary'
+          onClick={() => this.props.history.push('/course')}>
+          Add Course
+        </button>
         <CourseList courses={this.props.courses} />
       </>
     );
@@ -38,6 +42,8 @@ CoursePage.propTypes = {
   loadAuthors: PropTypes.func.isRequired
 };
 
+
+//Redux mappings
 function mapStateToProps(state) {
   return {
     courses:

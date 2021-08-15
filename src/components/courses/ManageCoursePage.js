@@ -8,12 +8,12 @@ import { newCourse } from '../../../tools/mockData';
 
 class ManageCoursePage extends React.Component {
   state = {
-    course: {},
+    course: { ...this.props.course },
     errors: {},
   }
 
-  componentDidMount() {
-    let { loadCourses, loadAuthors, courses, authors, course } = this.props;
+  loadData() {
+    let { loadCourses, courses, course } = this.props;
     if (courses.length === 0) {
       loadCourses().catch(error => {
         alert("load courses failed " + error);
@@ -21,12 +21,20 @@ class ManageCoursePage extends React.Component {
     } else {
       this.setState({ ...this.state, course });
     };
+  }
 
+  componentDidMount() {
+    this.loadData();
+    let { loadAuthors, authors } = this.props;
     if (authors.length === 0) {
       loadAuthors().catch(error => {
         alert("load Authors failed " + error);
       });
     }
+  }
+
+  componentWillReceiveProps(_nextProps) {
+    this.loadData();
   }
 
   handleChange = (event) => {
@@ -69,14 +77,14 @@ ManageCoursePage.propTypes = {
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   saveCourse: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 // Redux mappings
 function mapStateToProps(state, ownProps) {
-  console.log('call map state to props');
   const slug = ownProps.match.params.slug;
   const course = slug && state.courses?.length > 0
-    ? state.courses.find(course => course.slug === slug) || newCourse
+    ? state.courses.find(course => course.slug === slug) || null
     : newCourse;
 
   return {

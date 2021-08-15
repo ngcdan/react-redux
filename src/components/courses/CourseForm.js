@@ -9,13 +9,9 @@ export default class CourseForm extends Component {
       <form onSubmit={onSave}>
         <h2>{course.id ? "Edit" : "Add"} Course</h2>
 
-        <TextInput htmlId="example-optional"
-          name="title" label="Title" value={course.title} onChange={onChange} />
-
+        <TextInput name="title" label="Title" value={course.title} onChange={onChange} />
         <SelectInput
-          name="authorId"
-          label="Author"
-          value={course.authorId || ""}
+          name="authorId" label="Author" value={course.authorId || ""}
           defaultOption="Select Author"
           options={authors.map(author => ({
             value: author.id,
@@ -23,15 +19,9 @@ export default class CourseForm extends Component {
           }))}
           onChange={onChange} />
 
-        <TextInput
-          name="category"
-          label="Category"
-          value={course.category}
-          onChange={onChange} />
+        <TextInput name="category" label="Category" value={course.category} onChange={onChange} />
 
-        <button type="submit" className="btn btn-primary">
-          {"Save"}
-        </button>
+        <button type="submit" className="btn btn-primary"> {"Save"} </button>
       </form>
     );
   }

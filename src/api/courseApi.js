@@ -8,7 +8,7 @@ export function getCourses() {
 }
 
 export function saveCourse(course) {
-  return fetch(baseUrl + (course.id | ""), {
+  return fetch(baseUrl + (course.id || ""), {
     method: course.id ? "PUT" : "POST",
     headers: { 'content-type': "application/json" },
     body: JSON.stringify(course)

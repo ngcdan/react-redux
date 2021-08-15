@@ -19,7 +19,7 @@ export default class CourseList extends Component {
         <tbody>
           {courses.map(course => {
             return (
-              <tr key={course.slug}>
+              <tr key={course.id}>
                 <th>
                   <a className="btn btn-light"
                     href={"http://pluralsight.com/courses/" + course.slug} >

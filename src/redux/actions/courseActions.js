@@ -18,10 +18,10 @@ export function loadCourses() {
 export function saveCourse(course) {
   return function (dispatch, _getState) {
     return courseApi.saveCourse(course)
-      .then((course) => {
+      .then((savedCourse) => {
         course.id
-          ? dispatch({ type: types.UPDATE_COURSES_SUCCESS, course })
-          : dispatch({ type: types.CREATE_COURSE_SUCCESS, course })
+          ? dispatch({ type: types.UPDATE_COURSES_SUCCESS, course: saveCourse })
+          : dispatch({ type: types.CREATE_COURSE_SUCCESS, course: savedCourse });
       }).catch((error) => {
         throw error;
       });
