@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "webpack --mode development --config webpack.config.dev.js",
     "watch": "webpack --watch",
     "start": "run-p start:dev start:api",
     "start:dev": "webpack serve --config webpack.config.dev.js --port 3000",

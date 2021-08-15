@@ -1,6 +1,6 @@
 # React webpack
 
-## Init project
+## Initial project
 ```
 mkdir react-webpack
 cd react-webpack
@@ -26,6 +26,12 @@ touch .babelrc
 ##### add babel-polyfill to get async/await working.
 ```
 npm install --save-dev @babel/polyfill
+
+```
+
+## Install Props Types
+```
+ npm i prop-types
 ```
 
 ## Setup react
@@ -49,10 +55,6 @@ npm install react-router-dom
 npm install redux react-redux
 ```
 
-## Install Props Types
-```
- npm i prop-types
-```
 
 ## Setup Mock Data
 __npm-run-all__ : run multiple npm scripts
@@ -68,15 +70,6 @@ Access rest api via http://localhost:3001/courses
 npm install redux-thunk
 ```
 
-```
-export function deleteAuthor(dispatch, authorId) {
-  return AuthorApi.deleteAuthor(authorId)
-  .then(() => {
-    dispatch(deleteAuthor(authorId));
-  })
-  .catch(handleError);
-}
-```
 __Components can call sync an async actions the same way__
 
 

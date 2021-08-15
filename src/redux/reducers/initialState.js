@@ -1,4 +1,5 @@
 export const initialState = {
   courses: [],
-  authors: []
+  authors: [],
+  apiCallsInProgress: 0
 }

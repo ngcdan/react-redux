@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { loadCourses } from '../../redux/actions/courseActions';
 import { loadAuthors } from '../../redux/actions/authorActions';
 import CourseList from './CourseList';
+import Spinner from '../common/Spinner';
 
 class CoursePage extends React.Component {
   componentDidMount() {
@@ -22,14 +23,22 @@ class CoursePage extends React.Component {
   }
 
   render() {
+    const { loading } = this.props;
+
     return (
       <>
         <h1>Course Page</h1>
-        <button style={{ marginBottom: 20 }} className='btn btn-primary'
-          onClick={() => this.props.history.push('/course')}>
-          Add Course
-        </button>
-        <CourseList courses={this.props.courses} />
+        {loading
+          ? <Spinner />
+          :
+          <>
+            <button style={{ marginBottom: 20 }} className='btn btn-primary'
+              onClick={() => this.props.history.push('/course')}>
+              Add Course
+            </button>
+            <CourseList courses={this.props.courses} />
+          </>
+        }
       </>
     );
   }
@@ -39,13 +48,15 @@ CoursePage.propTypes = {
   courses: PropTypes.array.isRequired,
   authors: PropTypes.array.isRequired,
   loadCourses: PropTypes.func.isRequired,
-  loadAuthors: PropTypes.func.isRequired
+  loadAuthors: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 
 //Redux mappings
 function mapStateToProps(state) {
   return {
+    loading: state.apiCallsInProgress > 0,
     courses:
       state.authors?.length === 0
         ? []
@@ -55,7 +66,7 @@ function mapStateToProps(state) {
             authorName: state.authors.find(author => author.id === course.authorId).name
           };
         }),
-    authors: state.authors
+    authors: state.authors,
   };
 }
 
