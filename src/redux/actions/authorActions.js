@@ -8,6 +8,7 @@ export function loadAuthors() {
     return getAuthors().then((authors) => {
       dispatch({ type: types.LOAD_AUTHORS_SUCCESS, authors });
     }).catch((err) => {
+      dispatch(apiCallError(err));
       throw err;
     });
   }

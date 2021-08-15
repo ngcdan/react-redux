@@ -5,11 +5,14 @@ import { loadCourses, saveCourse } from '../../redux/actions/courseActions';
 import { loadAuthors } from '../../redux/actions/authorActions';
 import CourseForm from './CourseForm';
 import { newCourse } from '../../../tools/mockData';
+import Spinner from '../common/Spinner';
+import { toast } from 'react-toastify';
 
 class ManageCoursePage extends React.Component {
   state = {
     course: { ...this.props.course },
     errors: {},
+    saving: false,
   }
 
   loadData() {
@@ -48,25 +51,51 @@ class ManageCoursePage extends React.Component {
     }));
   }
 
+  formIsValid() {
+    const { title, authorId, category } = this.state.course;
+    const errors = {};
+
+    if (!title) errors.title = "Title is required.";
+    if (!authorId) errors.author = "Author is required";
+    if (!category) errors.category = "Category is required";
+
+    this.setState(prevState => ({ ...prevState, errors }));
+    // Form is valid if the errors object still has no properties
+    return Object.keys(errors).length === 0;
+  }
+
   handleSave = (event) => {
     event.preventDefault();
+    if (!this.formIsValid()) return;
     const { saveCourse, history } = this.props;
-    saveCourse(this.state.course).then(() => {
-      history.push("/courses");
-    }).catch(error => {
-      throw error;
-    });
+    this.setState(prevState => ({ ...prevState, saving: true }));
+    saveCourse(this.state.course)
+      .then(() => {
+        toast.success("Course saved!");
+        history.push("/courses");
+      }).catch(error => {
+        this.setState(prevState =>
+        ({
+          ...prevState,
+          errors: { onSave: error.message },
+          saving: false
+        }));
+      });
   }
 
   render() {
-    return (
-      <CourseForm
-        course={this.state.course}
-        authors={this.props.authors}
-        errors={this.state.errors}
-        onChange={this.handleChange}
-        onSave={this.handleSave} />
-    );
+    const { authors, courses } = this.props;
+    return (authors.length === 0 && courses.length === 0
+      ? (<Spinner />)
+      : (
+        <CourseForm
+          course={this.state.course}
+          authors={this.props.authors}
+          errors={this.state.errors}
+          onChange={this.handleChange}
+          onSave={this.handleSave}
+          saving={this.state.saving} />
+      ));
   }
 }
 
@@ -88,9 +117,9 @@ function mapStateToProps(state, ownProps) {
     : newCourse;
 
   return {
-    course,
     courses: state.authors,
-    authors: state.authors
+    authors: state.authors,
+    course,
   };
 }
 
