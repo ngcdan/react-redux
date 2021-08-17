@@ -10,11 +10,7 @@ import { toast } from 'react-toastify';
 class CoursePage extends React.Component {
   componentDidMount() {
     let { loadCourses, loadAuthors, courses, authors } = this.props;
-    if (courses.length === 0) {
-      loadCourses().catch(error => {
-        alert("load courses failed " + error);
-      });
-    }
+    if (courses.length === 0) loadCourses();
 
     if (authors.length === 0) {
       loadAuthors().catch(error => {

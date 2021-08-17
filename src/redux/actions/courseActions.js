@@ -1,40 +1,45 @@
 import * as types from './actionTypes';
 import * as courseApi from '../../api/courseApi';
 import { beginApiCall, apiCallError } from './apiStatusAction';
-
-export function createCourse(course) {
-  return { type: types.CREATE_COURSE, course };
-}
+import { rest } from '../../api/courseApi';
 
 export function loadCourses() {
   return function (dispatch) {
     dispatch(beginApiCall());
-    return courseApi
-      .getCourses()
-      .then((courses) => {
-        dispatch({ type: types.LOAD_COURSES_SUCCESS, courses });
-      })
-      .catch((error) => {
-        dispatch(apiCallError(error));
-        throw error;
-      });
+    rest.get('courses', null, (courses) => {
+      dispatch({ type: types.LOAD_COURSES_SUCCESS, courses });
+    }, (error) => {
+      dispatch(apiCallError(error));
+      throw error;
+    });
   }
 }
 
-export function saveCourse(course) {
+export function saveCourse(course, successCb) {
   return function (dispatch, _getState) {
     dispatch(beginApiCall());
-    return courseApi
-      .saveCourse(course)
-      .then((savedCourse) => {
-        course.id
-          ? dispatch({ type: types.UPDATE_COURSES_SUCCESS, course: saveCourse })
-          : dispatch({ type: types.CREATE_COURSE_SUCCESS, course: savedCourse });
-      })
-      .catch((error) => {
-        dispatch(apiCallError(error));
-        throw error;
-      });
+    if (course.id) {
+      rest.put(`courses/${course.id}`, course,
+        savedCourse => {
+          successCb(savedCourse);
+          dispatch({ type: types.UPDATE_COURSES_SUCCESS, course: savedCourse });
+        },
+        error => {
+          dispatch(apiCallError(error));
+          throw error;
+        }
+      );
+    } else {
+      rest.put("courses", course,
+        savedCourse => {
+          dispatch({ type: types.CREATE_COURSE_SUCCESS, course: savedCourse });
+        },
+        error => {
+          dispatch(apiCallError(error));
+          throw error;
+        }
+      );
+    }
   }
 }
 

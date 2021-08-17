@@ -18,9 +18,7 @@ class ManageCoursePage extends React.Component {
   loadData() {
     let { loadCourses, courses, course } = this.props;
     if (courses.length === 0) {
-      loadCourses().catch(error => {
-        alert("load courses failed " + error);
-      });
+      return loadCourses();
     } else {
       this.setState({ ...this.state, course });
     };
@@ -69,18 +67,20 @@ class ManageCoursePage extends React.Component {
     if (!this.formIsValid()) return;
     const { saveCourse, history } = this.props;
     this.setState(prevState => ({ ...prevState, saving: true }));
-    saveCourse(this.state.course)
-      .then(() => {
-        toast.success("Course saved!");
-        history.push("/courses");
-      }).catch(error => {
-        this.setState(prevState =>
-        ({
-          ...prevState,
-          errors: { onSave: error.message },
-          saving: false
-        }));
-      });
+    saveCourse(this.state.course, (course) => {
+      toast.success("Course saved!");
+      history.push("/courses");
+    });
+    /*
+          .catch (error => {
+          this.setState(prevState =>
+          ({
+            ...prevState,
+            errors: { onSave: error.message },
+            saving: false
+          }));
+        });
+        */
   }
 
   render() {
