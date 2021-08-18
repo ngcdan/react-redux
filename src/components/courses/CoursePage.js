@@ -18,7 +18,9 @@ class CoursePage extends React.Component {
 
   componentDidMount() {
     let { loadCourses, loadAuthors, courses, authors } = this.props;
-    if (courses.length === 0) loadCourses();
+    if (courses.length === 0) loadCourses((courses) => {
+      this.setState({ courses: courses });
+    });
 
     if (authors.length === 0) {
       loadAuthors().catch(error => {
@@ -36,12 +38,15 @@ class CoursePage extends React.Component {
     }
   };
 
-
   handleSearchFilter(value) {
-    let filterValue = value.toLowerCase();
-    this.setState(courses => {
-      courses.filter(course => Object.values(course).join(' ').toLowerCase().includes(filterValue));
-    })
+    if (value?.length > 0) {
+      const coursesFilter = this.state.courses
+        .filter(c => Object.values(c).join(' ').toLowerCase().includes(value.toLowerCase()));
+      console.log(coursesFilter);
+      this.setState({ courses: coursesFilter });
+    } else {
+      //TODO: load all courses
+    }
   }
 
   render() {
@@ -59,7 +64,7 @@ class CoursePage extends React.Component {
               onClick={() => this.props.history.push('/course')}>
               Add Course
             </button>
-            <CourseList onDelete={this.handleDeleteCourse} courses={this.props.courses} />
+            <CourseList onDelete={this.handleDeleteCourse} courses={this.state.courses} />
           </>
         }
       </>

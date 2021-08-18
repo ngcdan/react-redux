@@ -3,12 +3,14 @@ import * as courseApi from '../../api/courseApi';
 import { beginApiCall, apiCallError } from './apiStatusAction';
 import { rest } from '../../api/courseApi';
 
-export function loadCourses() {
+export function loadCourses(successCb, failCB) {
   return function (dispatch) {
     dispatch(beginApiCall());
     rest.get('courses', null, (courses) => {
+      if (successCb) successCb(courses);
       dispatch({ type: types.LOAD_COURSES_SUCCESS, courses });
     }, (error) => {
+      if (failCB) failCB(error);
       dispatch(apiCallError(error));
       throw error;
     });

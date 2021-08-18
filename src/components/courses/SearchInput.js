@@ -13,10 +13,10 @@ export class SearchInput extends Component {
   render() {
     const { onSearch } = this.props;
     return (
-      <div class="input-group mb-2">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+      <div className="input-group mb-2">
+        <input type="search" className="form-control rounded" placeholder="Search" aria-label="Search"
           aria-describedby="search-addon" onChange={e => this.onChange(e.target.value)} />
-        <button type="button" class="btn btn-outline-primary" onClick={() => onSearch(this.state.searchValue)}>
+        <button type="button" className="btn btn-outline-primary" onClick={() => onSearch(this.state.searchValue)}>
           search
         </button>
       </div >
