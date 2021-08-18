@@ -38,7 +38,10 @@ class CoursePage extends React.Component {
 
 
   handleSearchFilter(value) {
-    console.log(this.state.courses);
+    let filterValue = value.toLowerCase();
+    this.setState(courses => {
+      courses.filter(course => Object.values(course).join(' ').toLowerCase().includes(filterValue));
+    })
   }
 
   render() {
