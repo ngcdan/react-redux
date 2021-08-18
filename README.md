@@ -55,7 +55,6 @@ npm install react-router-dom
 npm install redux react-redux
 ```
 
-
 ## Setup Mock Data
 __npm-run-all__ : run multiple npm scripts
 ```
@@ -63,9 +62,8 @@ npm install npm-run-all json-server --save-dev
 ```
 Access rest api via http://localhost:3001/courses
 
-## Using redux-thunk handle async api
+## Using redux-thunk handle api
 
-### handle non using redux-thunk
 ```
 npm install redux-thunk
 ```

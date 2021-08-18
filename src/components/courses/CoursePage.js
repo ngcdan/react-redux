@@ -4,10 +4,18 @@ import PropTypes from 'prop-types';
 import { loadCourses, deleteCourse } from '../../redux/actions/courseActions';
 import { loadAuthors } from '../../redux/actions/authorActions';
 import CourseList from './CourseList';
+import { SearchInput } from './SearchInput';
 import Spinner from '../common/Spinner';
 import { toast } from 'react-toastify';
 
 class CoursePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      courses: this.props.courses
+    }
+  }
+
   componentDidMount() {
     let { loadCourses, loadAuthors, courses, authors } = this.props;
     if (courses.length === 0) loadCourses();
@@ -28,12 +36,18 @@ class CoursePage extends React.Component {
     }
   };
 
+
+  handleSearchFilter(value) {
+    console.log(this.state.courses);
+  }
+
   render() {
     const { loading } = this.props;
 
     return (
       <>
         <h1>Course Page</h1>
+        <SearchInput onSearch={(value) => this.handleSearchFilter(value)} />
         {loading
           ? <Spinner />
           :
