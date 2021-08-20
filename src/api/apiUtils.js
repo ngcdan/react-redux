@@ -102,7 +102,6 @@ export class Rest {
     this.doFetch(url, config, successCb);
   }
 
-
   doFetch(url, config, successCallback, failCb) {
     fetch(url, config)
       .then((response) => {
