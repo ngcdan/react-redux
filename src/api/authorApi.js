@@ -1,7 +1,7 @@
 import { handleResponse, handleError } from './apiUtils';
 const baseUrl = process.env.API_URL + "/authors/";
 
-export function getAuthors() {
+export function loadAuthors() {
   return fetch(baseUrl)
     .then(handleResponse)
     .catch(handleError);

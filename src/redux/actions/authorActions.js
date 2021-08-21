@@ -1,13 +1,15 @@
 import * as types from './actionTypes';
-import { getAuthors } from '../../api/authorApi';
 import { beginApiCall } from './apiStatusAction';
+import { rest } from 'api/apiUtils';
 
-export function loadAuthors() {
+export function loadAuthors(successCb, failCb) {
   return function (dispatch) {
     dispatch(beginApiCall());
-    return getAuthors().then((authors) => {
+    rest.get("authors", null, (authors) => {
+      successCb(authors);
       dispatch({ type: types.LOAD_AUTHORS_SUCCESS, authors });
-    }).catch((err) => {
+    }, (err) => {
+      failCb(err);
       dispatch(apiCallError(err));
       throw err;
     });

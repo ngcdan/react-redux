@@ -21,7 +21,7 @@ class CoursePage extends React.Component {
   loadData() {
     let { loadAuthors, loadCourses } = this.props;
     if (this.state.authors.length === 0) {
-      loadAuthors().catch(error => {
+      loadAuthors((_authors) => { }, (error) => {
         alert("load Authors failed " + error);
       });
     }
@@ -41,14 +41,14 @@ class CoursePage extends React.Component {
     this.loadData();
   }
 
-  handleDeleteCourse = async course => {
+  handleDeleteCourse = (deleteCourse) => {
     toast.success("Course deleted");
-    try {
-      await this.props.deleteCourse(course);
-    } catch (error) {
+    this.props.deleteCourse(deleteCourse.id, () => {
+      this.setState({ courses: this.state.courses.filter(course => course.id !== deleteCourse.id) });
+    }, (error) => {
       toast.error("Delete failed. " + error.message, { autoClose: false });
-    }
-  };
+    });
+  }
 
   handleSearchFilter(value) {
     if (value?.length > 0) {

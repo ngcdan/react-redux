@@ -1,8 +1,6 @@
 import { handleError, handleResponse } from './apiUtils';
 const baseUrl = process.env.API_URL + "/courses/";
-import { Rest } from '../api/apiUtils';
 
-export const rest = new Rest(process.env.API_URL, process.env.API_URL);
 export function saveCourse(course) {
   return fetch(baseUrl + (course.id || ""), {
     method: course.id ? "PUT" : "POST",
