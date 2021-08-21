@@ -7,18 +7,19 @@ import CourseList from './CourseList';
 import { SearchInput } from './SearchInput';
 import Spinner from '../common/Spinner';
 import { toast } from 'react-toastify';
+import { authors } from '../../../tools/mockData';
 
 class CoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: this.props.courses
+      courses: [],
     }
   }
 
   componentDidMount() {
-    let { loadCourses, loadAuthors, courses, authors } = this.props;
-    if (courses.length === 0) loadCourses((courses) => {
+    let { loadCourses, loadAuthors, authors } = this.props;
+    loadCourses((courses) => {
       this.setState({ courses: courses });
     });
 
@@ -39,19 +40,31 @@ class CoursePage extends React.Component {
   };
 
   handleSearchFilter(value) {
+    let { loadCourses } = this.props;
     if (value?.length > 0) {
       const coursesFilter = this.state.courses
         .filter(c => Object.values(c).join(' ').toLowerCase().includes(value.toLowerCase()));
-      console.log(coursesFilter);
       this.setState({ courses: coursesFilter });
     } else {
-      //TODO: load all courses
+      if (authors.length === 0) {
+        loadAuthors().catch(error => {
+          alert("load Authors failed " + error);
+        });
+      }
+      loadCourses((result) => {
+        const courses = result.map(course => {
+          return {
+            ...course,
+            authorName: authors.find(author => author.id === course.authorId).name
+          };
+        });
+        this.setState({ courses: courses });
+      });
     }
   }
 
   render() {
     const { loading } = this.props;
-
     return (
       <>
         <h1>Course Page</h1>
