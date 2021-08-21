@@ -13,21 +13,32 @@ class CoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: [],
+      courses: this.props.courses,
+      authors: this.props.authors
     }
   }
 
-  componentDidMount() {
-    let { loadCourses, loadAuthors, authors } = this.props;
-    loadCourses((courses) => {
-      this.setState({ courses: courses });
-    });
-
-    if (authors.length === 0) {
+  loadData() {
+    let { loadAuthors, loadCourses } = this.props;
+    if (this.state.authors.length === 0) {
       loadAuthors().catch(error => {
         alert("load Authors failed " + error);
       });
     }
+
+    loadCourses((result) => {
+      const courses = result.map(course => {
+        return {
+          ...course,
+          authorName: authors.find(author => author.id === course.authorId).name
+        };
+      });
+      this.setState({ courses: courses });
+    });
+  }
+
+  componentDidMount() {
+    this.loadData();
   }
 
   handleDeleteCourse = async course => {
@@ -40,26 +51,12 @@ class CoursePage extends React.Component {
   };
 
   handleSearchFilter(value) {
-    let { loadCourses } = this.props;
     if (value?.length > 0) {
       const coursesFilter = this.state.courses
         .filter(c => Object.values(c).join(' ').toLowerCase().includes(value.toLowerCase()));
       this.setState({ courses: coursesFilter });
     } else {
-      if (authors.length === 0) {
-        loadAuthors().catch(error => {
-          alert("load Authors failed " + error);
-        });
-      }
-      loadCourses((result) => {
-        const courses = result.map(course => {
-          return {
-            ...course,
-            authorName: authors.find(author => author.id === course.authorId).name
-          };
-        });
-        this.setState({ courses: courses });
-      });
+      this.loadData();
     }
   }
 
