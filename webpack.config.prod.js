@@ -1,33 +1,24 @@
-const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack");
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpackBundleAnalyzer = require("webpack-bundle-analyzer");
 
 process.env.NODE_ENV = "production";
 
 module.exports = {
-  mode: process.env.NODE_ENV || 'production',
-  entry: ["@babel/polyfill", path.join(__dirname, 'src', 'index.js')],
+  mode: 'production',
+  target: "web",
+  entry: "./src/index",
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: "/",
     filename: 'bundle.js'
   },
-  resolve: {
-    modules: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'public'), 'node_modules']
-  },
-  devServer: {
-    stats: "minimal",
-    compress: true, //Enable gzip
-    overlay: true,
-    historyApiFallback: true,
-    disableHostCheck: true,
-    headers: { "Access-Control-Allow-Origin": "*" },
-    https: false,
-    contentBase: path.join(__dirname, 'public')
-  },
   plugins: [
+    // Display bundle stats
+    new webpackBundleAnalyzer.BundleAnalyzerPlugin({ analyzerMode: "static" }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css"
     }),
@@ -38,8 +29,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin(
       {
-        template: path.join(__dirname, 'public', 'index.html'),
-        favicon: path.join(__dirname, 'public', 'sun.ico'),
+        template: "src/index.html",
+        favicon: "src/sun.ico",
         minify: {
           // see https://github.com/kangax/html-minifier#options-quick-reference
           removeComments: true,
@@ -81,7 +72,6 @@ module.exports = {
               },
               sourceMap: true,
             },
-
           }
         ]
       }

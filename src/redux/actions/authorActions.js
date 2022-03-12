@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import { beginApiCall } from './apiStatusAction';
-import { rest } from 'api/apiUtils';
+import { rest } from '../../api/apiUtils';
 
 export function loadAuthors(successCb, failCb) {
   return function (dispatch) {

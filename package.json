@@ -5,12 +5,12 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch",
     "start": "run-p start:dev start:api",
     "start:dev": "webpack serve --config webpack.config.dev.js --port 3000",
     "prestart:api": "node tools/createMockDb.js",
     "start:api": "node tools/apiServer.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
     "prebuild": "rimraf ./build && mkdir build",
     "build": "webpack --config webpack.config.prod.js",
     "postbuild": "run-p start:api serve:build",
@@ -29,15 +29,11 @@
   "homepage": "https://github.com/ngcdan/react-webpack#readme",
   "devDependencies": {
     "@babel/core": "7.15.0",
-    "@babel/node": "7.14.9",
-    "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.15.0",
-    "@babel/preset-react": "7.14.5",
     "babel-loader": "8.2.2",
+    "babel-preset-react-app": "10.0.0",
+    "@types/cssnano": "^5.1.0",
     "css-loader": "6.2.0",
     "cssnano": "5.0.6",
-    "eslint": "7.32.0",
-    "eslint-plugin-react": "7.24.0",
     "html-webpack-plugin": "5.3.2",
     "http-server": "0.12.3",
     "json-server": "0.16.3",
@@ -49,8 +45,9 @@
     "rimraf": "3.0.2",
     "sass-loader": "12.1.0",
     "style-loader": "3.2.1",
-    "webpack": "5.49.0",
-    "webpack-cli": "4.7.2",
+    "webpack": "5.44.0",
+    "webpack-bundle-analyzer": "4.4.2",
+    "webpack-cli": "4.9.0",
     "webpack-dev-server": "3.11.2"
   },
   "dependencies": {
@@ -61,11 +58,13 @@
     "react-redux": "7.2.4",
     "react-router-dom": "5.2.0",
     "react-toastify": "^7.0.4",
-    "reactjs-lib": "1.0.1",
+    "reactjs-lib": "1.0.2",
     "redux": "4.1.1",
     "redux-thunk": "^2.3.0"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "babel": {
+    "presets": [
+      "babel-preset-react-app"
+    ]
   }
 }

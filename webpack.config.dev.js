@@ -2,27 +2,25 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+process.env.NODE_ENV = "development";
+
 module.exports = {
-  mode: process.env.NODE_ENV || 'development',
-  entry: ["@babel/polyfill", path.join(__dirname, 'src', 'index.js')],
-  devtool: 'inline-source-map',
+  mode: 'development',
+  target: "web",
+  entry: "./src/index",
+  devtool: "cheap-module-source-map",
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: "/",
     filename: 'bundle.js'
   },
-  resolve: {
-    modules: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'public'), 'node_modules']
-  },
   devServer: {
     stats: "minimal",
-    compress: true, //Enable gzip
     overlay: true,
     historyApiFallback: true,
     disableHostCheck: true,
     headers: { "Access-Control-Allow-Origin": "*" },
     https: false,
-    contentBase: path.join(__dirname, 'public')
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -30,8 +28,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin(
       {
-        template: path.join(__dirname, 'public', 'index.html'),
-        favicon: path.join(__dirname, 'public', 'sun.ico')
+        template: "src/index.html",
+        favicon: "src/sun.ico"
       }
     )
   ],

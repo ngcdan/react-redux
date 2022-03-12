@@ -20,7 +20,7 @@ class CoursePage extends React.Component {
 
   loadData() {
     let { loadAuthors, loadCourses } = this.props;
-    if (this.state.authors.length === 0) {
+    if (authors.length === 0) {
       loadAuthors((_authors) => { }, (error) => {
         alert("load Authors failed " + error);
       });
@@ -93,11 +93,10 @@ CoursePage.propTypes = {
 
 
 //Redux mappings
-function mapStateToProps(state) {
+function mapStateToProps(state, _ownProps) {
   return {
-    loading: state.apiCallsInProgress > 0,
     courses:
-      state.authors?.length === 0
+      state.authors.length === 0
         ? []
         : state.courses.map(course => {
           return {
@@ -106,6 +105,7 @@ function mapStateToProps(state) {
           };
         }),
     authors: state.authors,
+    loading: state.apiCallsInProgress > 0,
   };
 }
 

@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import { beginApiCall, apiCallError } from './apiStatusAction';
-import { rest } from 'api/apiUtils';
+import { rest } from '../../api/apiUtils';
 
 export function loadCourses(successCb, failCB) {
   return function (dispatch) {
