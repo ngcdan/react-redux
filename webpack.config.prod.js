@@ -30,7 +30,7 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         template: "src/index.html",
-        favicon: "src/sun.ico",
+        favicon: "src/favicon.ico",
         minify: {
           // see https://github.com/kangax/html-minifier#options-quick-reference
           removeComments: true,

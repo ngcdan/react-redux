@@ -14,7 +14,6 @@ export function handleError(error) {
   throw error;
 }
 
-// rest library
 function createFetchConfig(method, params) {
   let body = null;
   if (params) {

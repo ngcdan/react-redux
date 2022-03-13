@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
-    <div className='container-fluid'>
+    <div className={"container"}>
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />

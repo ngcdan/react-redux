@@ -28,9 +28,10 @@ class ManageCoursePage extends React.Component {
     this.loadData();
     let { loadAuthors, authors } = this.props;
     if (authors.length === 0) {
-      loadAuthors().catch(error => {
+      const failCb = (error) => {
         alert("load Authors failed " + error);
-      });
+      };
+      loadAuthors((_authors) => { }, failCb);
     }
   }
 
@@ -115,6 +116,7 @@ function mapStateToProps(state, ownProps) {
   const course = slug && state.courses?.length > 0
     ? state.courses.find(course => course.slug === slug) || null
     : newCourse;
+  console.log(state);
 
   return {
     courses: state.authors,
@@ -122,11 +124,12 @@ function mapStateToProps(state, ownProps) {
     course,
   };
 }
+// component will receive: props.courses, props.authors, and props.course
 
-const mapDispatchToProps = {
+const mapDispatch = {
   loadCourses,
   loadAuthors,
   saveCourse,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
+export default connect(mapStateToProps, mapDispatch)(ManageCoursePage);
