@@ -10,8 +10,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+
   return (
-    <div className={"container"}>
+    <div className="container">
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
@@ -22,7 +23,7 @@ function App() {
         <Route render={() => <h1>Oops! Page not found.</h1>} />
       </Switch>
       <ToastContainer autoClose={3000} hideProgressBar />
-    </div>
+    </div >
   );
 }
 

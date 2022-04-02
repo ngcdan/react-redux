@@ -2,17 +2,26 @@
   "courses": [
     {
       "id": 7,
-      "title": "Clean Code: Writing Code for Humans",
+      "title": "1",
       "slug": "writing-clean-code-humans",
       "authorId": 2,
       "category": "Software Practices"
     },
     {
-      "id": 9,
-      "title": "Becoming an Outlier: Reprogramming the Developer Mind",
-      "slug": "career-reboot-for-developer-mind",
+      "id": 8,
+      "title": "test",
       "authorId": 1,
-      "category": "Career"
+      "category": "test",
+      "createdAt": 1648914810151,
+      "slug": "test"
+    },
+    {
+      "id": 9,
+      "title": "xxxxx",
+      "authorId": 2,
+      "category": "xxxx",
+      "createdAt": 1648914824953,
+      "slug": "xxxxx"
     }
   ],
   "authors": [

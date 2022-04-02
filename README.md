@@ -81,3 +81,72 @@
       saveCourse,
     }
   ```
+
+
+  ### using @reduxjs/toolkit
+
+  ```
+    npm install @reduxjs/toolkit react-redux
+  ```
+
+
+
+# Store
+
+```
+  import { configureStore } from '@reduxjs/toolkit'
+  import counterReducer from '../features/counter/counterSlice'
+
+  export default configureStore({
+    reducer: {
+      counter: counterReducer
+    }
+  })
+```
+configureStore requires that we pass in a reducer argument.
+When we pass in an object like counter: counterReducer, let's says that we want to have a state.counter section
+ of Redux state object and that we want counterReducer function to being change of deciding if and how to update the
+ state.counter section whenever an action is dispatched.
+
+# Redux slice
+A slice is an collection of Redux reducer logic and actions for a single feature in app.
+```
+  import { configureStore } from '@reduxjs/toolkit'
+  import usersReducer from '../features/users/usersSlice'
+  import postsReducer from '../features/posts/postsSlice'
+  import commentsReducer from '../features/comments/commentsSlice'
+
+  export default configureStore({
+    reducer: {
+      users: usersReducer,
+      posts: postsReducer,
+      comments: commentsReducer
+    }
+  })
+```
+
+- Redux object tree look like this:
+
+```
+  {
+    users: ....,
+    posts: ....,
+    comments: ...,
+  }
+```
+
+- usersReducer function to being in change of deciding if and how to update the users data.
+- postReducer function to being in change of deciding if and how to update the posts data.
+- commentsReducer function to being in change of deciding if and how to update the comments data.
+
+
+
+### Tailwind CSS
+
+Install Tailwind CSS
+```
+  npm install -D tailwindcss postcss autoprefixer
+  npx tailwindcss init -p
+```
+
+
