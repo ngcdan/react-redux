@@ -1,6 +1,6 @@
 TODO:
   -Don't reassign your props to state that is what you are using redux for pulling the values from the store and returning them as props to your component
-
+- ![Writing resilient components](https://overreacted.io/writing-resilient-components/)
 
 - When click Courses from nav bar (Header) , redirect to Course Page
 
