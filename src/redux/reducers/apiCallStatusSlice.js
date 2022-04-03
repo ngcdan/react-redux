@@ -1,14 +1,18 @@
-import { types } from '../actions';
 import { initialState } from './initialState';
+import { createSlice } from '@reduxjs/toolkit'
 
-export function apiCallStatusReducer(state = initialState.apiCallsInProgress, action) {
-  if (types.BEGIN_API_CALL === action.type) {
-    return state + 1;
-  } else if (
-    action.type === types.API_CALL_ERROR ||
-    action.type.substring(action.type.length - 8) === "_SUCCESS") {
-    return state - 1;
+const apiCallStatusSlice = createSlice({
+  name: 'apiCallStatus',
+  initialState: initialState.apiCallsInProgress,
+  reducers: {
+    pending: (state, _action) => {
+      return ++state;
+    },
+    fullfilled: (state, _action) => {
+      return --state;
+    }
   }
+});
 
-  return state;
-}
+export const { pending, fullfilled } = apiCallStatusSlice.actions;
+export default apiCallStatusSlice.reducer;

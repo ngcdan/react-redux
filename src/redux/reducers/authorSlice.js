@@ -1,11 +1,16 @@
-import { types } from '../actions';
 import { initialState } from './initialState';
+import { createSlice } from '@reduxjs/toolkit'
 
-export function authorReducer(state = initialState.authors, action) {
-  switch (action.type) {
-    case types.LOAD_AUTHORS_SUCCESS:
-      return action.authors;
-    default:
-      return state;
-  };
-}
+const authorSlice = createSlice({
+  name: 'authors',
+  initialState: initialState.authors,
+  reducers: {
+    loadAll: (_state, action) => {
+      return action.payload;
+    }
+  }
+})
+
+export const { loadAll } = authorSlice.actions
+
+export default authorSlice.reducer

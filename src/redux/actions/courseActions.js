@@ -1,50 +1,49 @@
-import { beginApiCall, apiCallError } from './apiStatusAction';
-import { loadAll_SUCCESS, create_SUCCESS, update_SUCCESS, deleteOptimistic } from '../reducers/courseSlice';
+import { fullfilled, pending } from '../reducers/apiCallStatusSlice';
+import { loadAll, create, update, deleteOptimistic } from '../reducers/courseSlice';
 import { rest } from '../../api';
 
 export function loadCourses(successCb, failCB) {
-  return function (dispatch, getState) {
-    console.log('log state in loadCourses');
-    console.log(getState());
-    dispatch(beginApiCall());
+  return function (dispatch, _getState) {
+    dispatch(pending());
     rest.get('courses', null, (courses) => {
-      console.log('log courses in after reponse async');
-      console.log(courses);
-      dispatch(loadAll_SUCCESS(courses));
+      dispatch(loadAll(courses));
+      dispatch(fullfilled());
       if (successCb) successCb(courses);
     }, (error) => {
-      dispatch(apiCallError(error));
+      dispatch(fullfilled());
       if (failCB) failCB(error);
+      throw new Error(err);
     });
   }
 }
 
 export function saveCourse(course, successCb, failCb) {
-  console.log('===========before save course===============');
-  console.log(course);
   return function (dispatch, _getState) {
-    dispatch(beginApiCall());
+    dispatch(pending());
     if (course.id) {
       rest.put(`courses/${course.id}`, course,
         savedCourse => {
-          dispatch(update_SUCCESS(savedCourse));
+          dispatch(update(savedCourse));
+          dispatch(fullfilled());
           if (successCb) successCb(savedCourse);
         },
         error => {
-          dispatch(apiCallError(error));
+          dispatch(fullfilled());
           if (failCb) failCb(error);
+          throw new Error(err); k
         }
       );
     } else {
       rest.post("courses", course,
         savedCourse => {
-          console.log(savedCourse);
-          dispatch(create_SUCCESS(savedCourse));
+          dispatch(create(savedCourse));
+          dispatch(fullfilled());
           if (successCb) successCb(savedCourse);
         },
         error => {
-          dispatch(apiCallError(error));
+          dispatch(fullfilled());
           if (failCb) failCb(error);
+          throw new Error(err); k
         }
       );
     }

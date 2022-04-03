@@ -139,7 +139,16 @@ A slice is an collection of Redux reducer logic and actions for a single feature
 - postReducer function to being in change of deciding if and how to update the posts data.
 - commentsReducer function to being in change of deciding if and how to update the comments data.
 
+### Slice
 
+
+### Using selector
+```
+import { useSelector, useDispatch } from 'react-redux'
+useSelector((state) => {// get piece of state here});
+```
+Any time Redux store has been updated, useSelector will re-run our selector function, if selector return a different
+value than last time, useSelector will make sure our component re-renders with the new value
 
 ### Tailwind CSS
 
