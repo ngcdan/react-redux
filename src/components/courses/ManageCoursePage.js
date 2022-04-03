@@ -9,34 +9,28 @@ import Spinner from '../common/Spinner';
 import { toast } from 'react-toastify';
 
 class ManageCoursePage extends React.Component {
-  state = {
-    course: { ...this.props.course },
-    errors: {},
-    saving: false,
-  }
-
-  loadData() {
-    let { loadCourses, courses, course } = this.props;
-    if (courses.length === 0) {
-      return loadCourses();
-    } else {
-      this.setState({ ...this.state, course });
-    };
-  }
-
-  componentDidMount() {
-    this.loadData();
-    let { loadAuthors, authors } = this.props;
-    if (authors.length === 0) {
-      const failCb = (error) => {
-        alert("load Authors failed " + error);
-      };
-      loadAuthors((_authors) => { }, failCb);
+  constructor(props) {
+    super(props);
+    const { course } = this.props;
+    this.state = {
+      course: { ...course },
+      errors: {},
+      saving: false,
     }
+    this.computeToLoadDate();
   }
 
-  componentWillReceiveProps(_nextProps) {
-    this.loadData();
+  computeToLoadDate() {
+    let { loadCourses, courses, authors } = this.props;
+    if (courses.length === 0) loadCourses();
+    if (authors.length === 0) loadAuthors();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      const { course } = nextProps;
+      this.setState({ course: { ...course } });
+    }
   }
 
   handleChange = (event) => {
@@ -68,20 +62,9 @@ class ManageCoursePage extends React.Component {
     if (!this.formIsValid()) return;
     const { saveCourse, history } = this.props;
     this.setState(prevState => ({ ...prevState, saving: true }));
-    saveCourse(this.state.course, (course) => {
-      toast.success("Course saved!");
-      history.push("/courses");
-    });
-    /*
-          .catch (error => {
-          this.setState(prevState =>
-          ({
-            ...prevState,
-            errors: { onSave: error.message },
-            saving: false
-          }));
-        });
-        */
+    saveCourse(this.state.course);
+    toast.success("Course saved!");
+    history.push("/courses");
   }
 
   render() {
@@ -110,13 +93,13 @@ ManageCoursePage.propTypes = {
   history: PropTypes.object.isRequired,
 };
 
-// Redux mappings
+// Redux mappings, like useSelector in function component
 function mapStateToProps(state, ownProps) {
-  const slug = ownProps.match.params.slug;
-  const course = slug && state.courses?.length > 0
-    ? state.courses.find(course => course.slug === slug) || null
+  const { courses } = state;
+  const { slug } = ownProps.match.params;
+  const course = slug && courses?.length > 0
+    ? courses.find(course => course.slug === slug) || null
     : newCourse;
-  console.log(state);
 
   return {
     courses: state.authors,

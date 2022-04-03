@@ -1,43 +1,49 @@
-import * as types from './actionTypes';
-import { beginApiCall, apiCallError } from './apiStatusAction';
+import { fullfilled, pending } from '../reducers/apiCallStatusSlice';
+import { loadAll, create, update, deleteOptimistic } from '../reducers/courseSlice';
 import { rest } from '../../api';
 
 export function loadCourses(successCb, failCB) {
-  return function (dispatch) {
-    dispatch(beginApiCall());
+  return function (dispatch, _getState) {
+    dispatch(pending());
     rest.get('courses', null, (courses) => {
-      dispatch({ type: types.LOAD_COURSES_SUCCESS, courses });
+      dispatch(loadAll(courses));
+      dispatch(fullfilled());
       if (successCb) successCb(courses);
     }, (error) => {
-      dispatch(apiCallError(error));
+      dispatch(fullfilled());
       if (failCB) failCB(error);
+      throw new Error(err);
     });
   }
 }
 
 export function saveCourse(course, successCb, failCb) {
   return function (dispatch, _getState) {
-    dispatch(beginApiCall());
+    dispatch(pending());
     if (course.id) {
       rest.put(`courses/${course.id}`, course,
         savedCourse => {
-          dispatch({ type: types.UPDATE_COURSES_SUCCESS, course: savedCourse });
+          dispatch(update(savedCourse));
+          dispatch(fullfilled());
           if (successCb) successCb(savedCourse);
         },
         error => {
-          dispatch(apiCallError(error));
+          dispatch(fullfilled());
           if (failCb) failCb(error);
+          throw new Error(err); k
         }
       );
     } else {
-      rest.put("courses", course,
+      rest.post("courses", course,
         savedCourse => {
-          dispatch({ type: types.CREATE_COURSE_SUCCESS, course: savedCourse });
+          dispatch(create(savedCourse));
+          dispatch(fullfilled());
           if (successCb) successCb(savedCourse);
         },
         error => {
-          dispatch(apiCallError(error));
+          dispatch(fullfilled());
           if (failCb) failCb(error);
+          throw new Error(err); k
         }
       );
     }
@@ -46,7 +52,7 @@ export function saveCourse(course, successCb, failCb) {
 
 export function deleteCourse(courseId, successCb, failCb) {
   return function (dispatch) {
-    dispatch({ type: types.DELETE_COURSE_OPTIMISTIC, course: courseId });
+    dispatch(deleteOptimistic(courseId));
     rest.delete(`courses/${courseId}`, null, successCb, failCb);
   }
 }

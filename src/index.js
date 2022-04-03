@@ -6,9 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 
 import App from './components/App';
-import configureStore from './redux/configureStore';
-
-const store = configureStore();
+import { store } from './redux/configureStore';
 
 render(
   <ReduxProvider store={store}>

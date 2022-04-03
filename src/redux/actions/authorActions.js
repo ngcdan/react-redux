@@ -1,18 +1,18 @@
-import * as types from './actionTypes';
-import { beginApiCall } from './apiStatusAction';
+import { loadAll } from '../reducers/authorSlice';
+import { fullfilled, pending } from '../reducers/apiCallStatusSlice';
 import { rest } from '../../api';
 
 export function loadAuthors(successCb, failCb) {
   return function (dispatch) {
-    dispatch(beginApiCall());
+    dispatch(pending());
     rest.get("authors", null, (authors) => {
-      console.log(authors);
       if (successCb) successCb(authors);
-      dispatch({ type: types.LOAD_AUTHORS_SUCCESS, authors });
+      dispatch(loadAll(authors));
+      dispatch(fullfilled());
     }, (err) => {
       if (failCb) failCb(err);
-      dispatch(apiCallError(err));
-      throw err;
+      dispatch(fullfilled(err));
+      throw new Error(err);
     });
   }
 }

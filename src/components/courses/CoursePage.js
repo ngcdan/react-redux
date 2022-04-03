@@ -7,38 +7,30 @@ import CourseList from './CourseList';
 import { SearchInput } from './SearchInput';
 import Spinner from '../common/Spinner';
 import { toast } from 'react-toastify';
-import { authors } from '../../../tools/mockData';
 
 class CoursePage extends React.Component {
   constructor(props) {
+    console.log('Course Page is mounting................');
     super(props);
     this.state = {
       courses: this.props.courses,
       authors: this.props.authors
     }
+    this.computeToLoadData();
   }
 
-  loadData() {
+  computeToLoadData() {
     let { loadAuthors, loadCourses } = this.props;
-    if (authors.length === 0) {
-      loadAuthors((_authors) => { }, (error) => {
-        alert("load Authors failed " + error);
-      });
-    }
-
-    loadCourses((result) => {
-      const courses = result.map(course => {
-        return {
-          ...course,
-          authorName: authors.find(author => author.id === course.authorId).name
-        };
-      });
-      this.setState({ courses: courses });
-    });
+    let { authors, courses } = this.state;
+    if (authors.length === 0) loadAuthors();
+    if (courses.length === 0) loadCourses()
   }
 
-  componentDidMount() {
-    this.loadData();
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      const { courses, authors } = nextProps;
+      this.setState({ courses: courses, authors: authors });
+    }
   }
 
   handleDeleteCourse = (deleteCourse) => {
@@ -56,12 +48,12 @@ class CoursePage extends React.Component {
         .filter(c => Object.values(c).join(' ').toLowerCase().includes(value.toLowerCase()));
       this.setState({ courses: coursesFilter });
     } else {
-      this.loadData();
+      this.computeToLoadData();
     }
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, history } = this.props;
     return (
       <>
         <h1>Course Page</h1>
@@ -71,7 +63,7 @@ class CoursePage extends React.Component {
           :
           <>
             <button style={{ marginBottom: 20 }} className='btn btn-primary'
-              onClick={() => this.props.history.push('/course')}>
+              onClick={() => history.push('/course')}>
               Add Course
             </button>
             <CourseList onDelete={this.handleDeleteCourse} courses={this.state.courses} />
@@ -91,7 +83,6 @@ CoursePage.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-
 //Redux mappings
 function mapStateToProps(state, _ownProps) {
   return {
@@ -105,7 +96,7 @@ function mapStateToProps(state, _ownProps) {
           };
         }),
     authors: state.authors,
-    loading: state.apiCallsInProgress > 0,
+    loading: state.apiCallsInProgress > 0, //TODO: performance
   };
 }
 
